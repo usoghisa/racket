@@ -1,5 +1,0 @@
-ttt1,author1
-ttt2,author2
-ttt3,author3
-Contact Alien,Carl Sagan
-ttt4,author4
