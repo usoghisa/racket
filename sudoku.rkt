@@ -7,7 +7,7 @@
 (define mtrx '(
               (1 2 3 4 5 6 7 8 9) 
               (2 0 3 4 5 0 7 8 9)
-              (3 2 3 0 5 6 7 8 3)
+              (3 2 3 0 5 6 7 8 9)
               (4 2 3 4 5 6 7 8 9)
               (5 2 3 4 5 6 7 8 9)
               (6 2 3 4 5 6 7 8 9)
@@ -90,6 +90,7 @@
          ((> 0 n))
          (else n)))row1))
 
+;; change 0 to a set
 (define (changeToSet row)
 (map(lambda(n)
         (cond ((= n 0) (set 1 2 3 4 5 6 7 8 9))
@@ -108,8 +109,10 @@
  (changeToSet (row 8 8 8 mtrx))
 ))
 
+
 (display  "matrix with n substitute with set is mtrxSet \n" ) 
 mtrxSet
+
 (print "call pivot rtn set " ) (pivot mtrxSet 1 1 1 )
 (print "remove n 9 from set " )(set-remove (pivot mtrxSet 1 1 1 ) 9 )
 (print "remove n 4 from set2 " )(set-remove (set 1 3 4 ) (set-first (set 4)) )
@@ -154,8 +157,37 @@ mtrxSet
   )
 ;(define (trans matrix row column number changeSet changeSetTo)
 (print "remove (set 2) from set r1 c1 " )
-;(trans mtrxSet 1 1 1 (pivot mtrxSet 1 1 1 ) (set-remove (pivot mtrxSet 1 1 1 )(set-first(pivot mtrxSet 1 0 1 )) ) )
-(set! mtrxSet(trans mtrxSet 1 1 1 (pivot mtrxSet 1 1 1 ) (set-remove (pivot mtrxSet 1 1 1 )(set-first(pivot mtrxSet 1 0 1 )) ) ))
-mtrxSet
+(trans mtrxSet 1 1 1 (pivot mtrxSet 1 1 1 )(set-remove (pivot mtrxSet 1 1 1 )(set-first(pivot mtrxSet 1 0 1 ))))
+
+(print "remove (set 2) from set row1 col5 col1" )
+(trans
+ (trans mtrxSet 1 5 1 (pivot mtrxSet 1 5 1)(set-remove(pivot mtrxSet 1 5 1)(set-first(pivot mtrxSet 1 0 1 ))))
+ 1 1 1 (pivot mtrxSet 1 1 1 )(set-remove (pivot mtrxSet 1 1 1 )(set-first(pivot mtrxSet 1 0 1 ))))
+
+(print "row 1, 2 output original mtrxSet" )(row 0 0 0 mtrxSet)(row 1 1 1 mtrxSet)
+;; use set ! will update mtrxSet 
+;(set! mtrxSet(trans mtrxSet 1 1 1 (pivot mtrxSet 1 1 1 ) (set-remove (pivot mtrxSet 1 1 1 )(set-first(pivot mtrxSet 1 0 1 )) ) )) mtrxSet
+
+(print "rtn #t if 1 ele set")(equal?(set-rest(pivot mtrxSet 1 1 1))(set))
+
+(define(findSigleTon row )
+(map(lambda(ele) ;(equal?(set-rest n)(set))
+        (cond
+         ((equal? #t (equal?(set-rest ele)(set))) ele)
+    ))row))
+
+(define(findLongSet row )
+(map(lambda(ele) 
+        (cond
+         ((equal? #f (equal?(set-rest ele)(set)))ele)
+    ))row))
+(define (singlTonLs r) 
+  (findSigleTon (row r r r mtrxSet)))
+
+(define (LongSetLs r) 
+  (findLongSet (row r r r mtrxSet)))
+(print "all Single ton of row1 ")(singlTonLs 1)
+(print "all LongSetLs of row1 ")(LongSetLs 1) 
+
 
 
